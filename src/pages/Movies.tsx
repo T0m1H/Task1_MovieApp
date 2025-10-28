@@ -2,17 +2,22 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle,
-  IonContent, IonList, IonItem, IonLabel, IonImg
+  IonContent, IonList, IonItem, IonLabel, IonImg, IonSearchbar
 } from '@ionic/react';
 
 const Movies: React.FC = () => {
   const [movies, setMovies] = useState<any[]>([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY&language=en-US&page=1`)
       .then(res => setMovies(res.data.results))
       .catch(err => console.error(err));
   }, []);
+
+  const filtered = movies.filter(movie =>
+    movie.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <IonPage>
@@ -22,8 +27,9 @@ const Movies: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <IonSearchbar value={search} onIonChange={e => setSearch(e.detail.value!)} />
         <IonList>
-          {movies.map(movie => (
+          {filtered.map(movie => (
             <IonItem key={movie.id}>
               <IonImg src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} />
               <IonLabel className="ion-padding">

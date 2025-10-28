@@ -10,7 +10,7 @@ const Movies: React.FC = () => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY&language=en-US&page=1`)
+    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=bb2c28bae1b8ba9e9840ee853cd81939&language=en-US&page=1`)
       .then(res => setMovies(res.data.results))
       .catch(err => console.error(err));
   }, []);
